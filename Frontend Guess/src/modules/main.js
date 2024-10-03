@@ -3,36 +3,36 @@ import { generateNewNumber, checkGuess, resetScore, getScore } from "./game";
 import { updateScoreDisplay, fetchAndDisplayHighscores, sendHighscore } from "./gui";
 
 
-fetchAndDisplayHighscores();//Prikaz highscore liste prilikom ucitavanja stranice
+fetchAndDisplayHighscores();//Visa highscore listan vid inläsning av sidan
 
 
-updateScoreDisplay(getScore());//Postavljanje pocetnih vrijednosti
+updateScoreDisplay(getScore());//Ställa in startvärden
 
 
-// Funkcija za provjeru pogotka
+//Funktion för att kontrollera gissning
 function handleGuess(guess) {
-    if (checkGuess(guess)) {   //Ako je tocan pogodak
+    if (checkGuess(guess)) {   //om det är rått
       
         updateScoreDisplay(getScore());
-        generateNewNumber(); // Generiraj novi broj
+        generateNewNumber(); //generera nytt nummer
 
 
     } else {
 
 
-        //Ako je netocan pogodak
+        //om det är fel
         const playerName = document.getElementById('playerName').value;
         if (playerName) {
             sendHighscore(playerName, getScore());
         }
 
-        resetScore(); //Resetiraj bodove
+        resetScore(); //Restart score
         updateScoreDisplay(getScore());
-        generateNewNumber(); //Generiraj novi broj
+        generateNewNumber(); //generera nytt nummer
     }
 }
 
-// Postavljanje event listenera za gumbe
+//Ställa in händelselyssnare för knappar
 document.getElementById('guess1').addEventListener('click', () => handleGuess(1));
 document.getElementById('guess2').addEventListener('click', () => handleGuess(2));
 document.getElementById('guess3').addEventListener('click', () => handleGuess(3));

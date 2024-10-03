@@ -12,25 +12,25 @@ const app = express();
 app.use(cors()); 
 app.use(express.json());
 
-//Dohvacanje highscore liste
+//Hämta highscore list
 app.get('/highscores', async (req, res) => {
-    const highscores = await getHighscores();// Dohvaćamo trenutnu highscore listu
+    const highscores = await getHighscores();
    
-    res.json(highscores); // Vraćamo  listu kao json
+    res.json(highscores); 
 })
 
 app.post('/highscores', async (req, res) => {
-    const newHighscore = req.body;// Pretpostavljamo da tijelo zahtjeva sadrži objekt sa "name" i "score"
-    const highscores = await getHighscores();//Dohvati trenutne highscoree
+    const newHighscore = req.body;
+    const highscores = await getHighscores();
 
-    highscores.push(newHighscore);//Dodaj novi rezultat na listu
+    highscores.push(newHighscore);//ddera nytt resulat på listan
 
-    highscores.sort((a, b) => b.score - a.score);// Sortiraj i sacuvaj azuriranu listu
+    highscores.sort((a, b) => b.score - a.score);//Sortera och spara updaterade listan
    
-    await saveHighscores(highscores); // Spremamo updatiranu listu
-    res.json({ message: "New highscore", highscores: highscores.slice(0, 5)});//Vracamo odgovor
+    await saveHighscores(highscores); 
+    res.json({ message: "New highscore", highscores: highscores.slice(0, 5)});
 })
 
 app.listen(PORT, () => {
-    console.log('Server located on', PORT);//Na kojem portu u postmanu vidimo rezultat
+    console.log('Server located on', PORT);
 })

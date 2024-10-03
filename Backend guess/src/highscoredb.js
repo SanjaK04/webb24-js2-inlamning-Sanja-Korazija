@@ -1,42 +1,35 @@
-import fs from "fs/promises";//// Importiramo cijeli fs modul, fs je skraćenica za File System, što je modul koji je ugrađen u Node.js i omogućava interakciju s datotečnim sustavom. Ovaj modul pruža različite funkcije za rad s datotekama i direktorijima
-import {writeFile} from "fs/promises";//Importiramo writeFile iz fs/promises,
+import fs from "fs/promises";// Vi importerar hela fs-modulen, fs är en förkortning för File System, vilket är en modul som är inbyggd i Node.js och möjliggör interaktion med filsystemet. Denna modul tillhandahåller olika funktioner för att arbeta med filer och kataloge
+import {writeFile} from "fs/promises";//Importerar writeFile från fs/promises,
 
 
-const fileName = 'highscores.json';// Definiramo naziv datoteke u kojoj je highscore lista
+const fileName = 'highscores.json';//Vi definierar namnet på filen där highscore-listan finns.
 
 
-// Dohvaćanje podataka iz json, highscore liste
+//Hämtning av data från json, highscore-listan.
 async function getHighscores() {
     const rawdata =  await fs.readFile(fileName);
     
     const highscores = JSON.parse(rawdata);// Rasclanjivanje stringa u JavaScript objekt (array)
  
-// Sortiranje highscore liste po scoreu u opadajucem redoslijedu
-    highscores.sort(compareScores); // Pozivamo pomocnu funkciju za usporedbu
-    return highscores.slice(0, 5); // Vracanje sortirane highscore liste
+//Sortering av highscore listan efter poäng i fallande ordning.
+    highscores.sort(compareScores); //Vi anropar en hjälpfunktion för att jämföra
+    return highscores.slice(0, 5); //Återlämning av den sorterade highscore-listan
 }
 
-// Spremanje novih podataka u json 
+//Spara och updatera json 
 async function saveHighscores(highscores) {
-    highscores.sort((a, b) => b.score - a.score);//Sortiranje liste u opadajucem redoslijedu
+    highscores.sort((a, b) => b.score - a.score);
     
-    const jsonData = JSON.stringify(highscores, null, 2);// Pretvaranje JavaScript objekta (arraya) u json string
+    const jsonData = JSON.stringify(highscores, null, 2);
     
-    await writeFile(fileName, jsonData); // Pisanje json stringa natrag u datoteku
-}
+    await writeFile(fileName, jsonData); 
 
-// Pomocna funkcija za usporedbu score-ova
+}    
+
+//Hjälpfunktion för att jämföra poäng.
 function compareScores(a, b) {
-    return b.score - a.score; // Vracamo razliku između b i a
+    return b.score - a.score; //Vi returnerar skillnaden mellan b och a.
 }
 
 
 export {getHighscores, saveHighscores};
-
-
-//i
-//kako dodati novi rezultat, provjeri ako je post tocan, mozda ne radi zbog frontend
-//kako dodati novi rezultat u listu, sortirati, odrzati pet rezultata
-//sada tu updatiranu listu natrag u datoteku(player.json)
-
-
